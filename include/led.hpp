@@ -47,7 +47,7 @@ void led::blink()
 
     _t_current = millis();
 
-    if ((_t_current - _t_privious) > (1000 / _fre))
+    if ((_t_current - _t_privious) > (1000 / (2*_fre))) // Fix the period
     {
         _t_privious = _t_current;
         _count_period++;
