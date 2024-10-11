@@ -20,6 +20,10 @@ led led4;
 led led5;
 led led6;
 
+// Create disable all led function
+void off_leds();
+bool FLAG_RUN_ONCE = true;
+
 void setup()
 {
   Serial.begin(9600);
@@ -58,13 +62,14 @@ void loop()
   {
     state = true;
     pushed_count++;
+    FLAG_RUN_ONCE = true;
   }
   if (digitalRead(sw) == HIGH)
   {
     state = false;
   }
 
-  switch (pushed_count % 6)
+  switch (pushed_count % 12)
   {
   case 1:
     led1.blink();
@@ -76,7 +81,7 @@ void loop()
     break;
 
   case 2:
-    led1.blink();
+    led1.disable();
     led2.blink();
     led3.disable();
     led4.disable();
@@ -85,6 +90,71 @@ void loop()
     break;
 
   case 3:
+    led1.disable();
+    led2.disable();
+    led3.blink();
+    led4.disable();
+    led5.disable();
+    led6.disable();
+    break;
+
+  case 4:
+    led1.disable();
+    led2.disable();
+    led3.disable();
+    led4.blink();
+    led5.disable();
+    led6.disable();
+    break;
+
+  case 5:
+    led1.disable();
+    led2.disable();
+    led3.disable();
+    led4.disable();
+    led5.blink();
+    led6.disable();
+    break;
+
+  case 6:
+    led1.disable();
+    led2.disable();
+    led3.disable();
+    led4.disable();
+    led5.disable();
+    led6.blink();
+    break;
+
+  case 7:
+    led1.blink();
+    led2.disable();
+    led3.disable();
+    led4.disable();
+    led5.disable();
+    led6.disable();
+    break;
+
+  case 8:
+    if (FLAG_RUN_ONCE)
+    {
+      off_leds();
+      FLAG_RUN_ONCE = !FLAG_RUN_ONCE;
+      // Serial.println("in case8 if");
+    }
+    led1.blink();
+    led2.blink();
+    led3.disable();
+    led4.disable();
+    led5.disable();
+    led6.disable();
+    break;
+
+  case 9:
+    if (FLAG_RUN_ONCE)
+    {
+      off_leds();
+      FLAG_RUN_ONCE = !FLAG_RUN_ONCE;
+    }
     led1.blink();
     led2.blink();
     led3.blink();
@@ -93,7 +163,12 @@ void loop()
     led6.disable();
     break;
 
-  case 4:
+  case 10:
+    if (FLAG_RUN_ONCE)
+    {
+      off_leds();
+      FLAG_RUN_ONCE = !FLAG_RUN_ONCE;
+    }
     led1.blink();
     led2.blink();
     led3.blink();
@@ -102,7 +177,12 @@ void loop()
     led6.disable();
     break;
 
-  case 5:
+  case 11:
+    if (FLAG_RUN_ONCE)
+    {
+      off_leds();
+      FLAG_RUN_ONCE = !FLAG_RUN_ONCE;
+    }
     led1.blink();
     led2.blink();
     led3.blink();
@@ -112,6 +192,11 @@ void loop()
     break;
 
   case 0:
+    if (FLAG_RUN_ONCE)
+    {
+      off_leds();
+      FLAG_RUN_ONCE = !FLAG_RUN_ONCE;
+    }
     if (pushed_count != 0)
     {
       led1.blink();
@@ -126,4 +211,15 @@ void loop()
 
   // Serial.println(pushed_count);
   // delay(100);
+}
+
+void off_leds()
+{
+  led1.disable();
+  led2.disable();
+  led3.disable();
+  led4.disable();
+  led5.disable();
+  led6.disable();
+  delay(1000); // wait for disable the digitalpin off completely
 }
